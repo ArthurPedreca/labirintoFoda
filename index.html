@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo de Labirinto</title>
+    <style>
+        #labirinto {
+            width: 200px;
+            height: 200px;
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="labirinto"></canvas>
+    <script>
+        const canvas = document.getElementById("labirinto");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = 200
+        canvas.height = 200
+
+        // Crie uma matriz para representar o labirinto
+        const labirinto = [
+    /*1*/   [1, 0, 1, 1, 1, 1, 1, 1, 1, 0],
+    /*2*/   [1, 0, 1, 1, 1, 1, 1, 1, 1, 0],
+    /*3*/   [1, 0, 1, 1, 1, 1, 0, 0, 0, 0],
+    /*4*/   [1, 0, 0, 0, 0, 1, 0, 1, 1, 1],  
+    /*5*/   [1, 1, 1, 1, 0, 1, 0, 1, 1, 1],  
+    /*6*/   [1, 1, 1, 1, 0, 1, 0, 1, 1, 1], 
+    /*7*/   [1, 0, 0, 0, 0, 1, 0, 0, 0, 1], 
+    /*8*/   [1, 0, 1, 1, 1, 1, 1, 1, 0, 1], 
+    /*9*/   [1, 0, 1, 1, 1, 0, 0, 0, 0, 1],  
+    /*10*/  [1, 0, 0, 0, 0, 0, 1, 1, 1, 1]  
+        ];
+
+        const tamanhoQuadrado = canvas.width / labirinto.length;
+
+        // Função para desenhar o labirinto
+        function desenharLabirinto() {
+            for (let i = 0; i < labirinto.length; i++) {
+                for (let j = 0; j < labirinto[i].length; j++) {
+                    const x = j * tamanhoQuadrado;
+                    const y = i * tamanhoQuadrado;
+
+                    if (labirinto[i][j] === 1) {
+                        ctx.fillStyle = "black"; // Parede
+                    } else {
+                        ctx.fillStyle = "white"; // Espaço vazio
+                    }
+
+                    ctx.fillRect(x, y, tamanhoQuadrado, tamanhoQuadrado);
+                }
+            }
+        }
+
+        // Função para verificar colisões
+        function verificarColisao(mouseX, mouseY) {
+            const coluna = Math.floor(mouseX / tamanhoQuadrado);
+            const linha = Math.floor(mouseY / tamanhoQuadrado);
+
+            if (labirinto[linha][coluna] === 1) {
+                alert("Você perdeu!");
+            }
+        }
+
+        // Evento para verificar o movimento do mouse
+        canvas.addEventListener("mousemove", (event) => {
+            const mouseX = event.offsetX;
+            const mouseY = event.offsetY;
+
+            verificarColisao(mouseX, mouseY);
+        });
+
+        // Inicialize o labirinto
+        desenharLabirinto();
+    </script>
+</body>
+</html>
